@@ -1,5 +1,68 @@
 # **Linear Regression**
 
+## 1. <u>***NumPy Implementation***</u>
+
+### ***Initial State***
+```python
+import numpy as np
+x_train = np.array([1.0, 2.0])
+y_train = np.array([300.0, 500.0])
+w = 200
+b = 100
+```
+
+###  ***Prediction***
+```python
+def predict(x, w, b):
+    return x * w + b
+```
+
+### ***Compute Cost***
+```python
+def compute_cost(x, y, w, b):
+    return np.sum((w * x + b - y) ** 2) / (2 * x.shape[0])
+```
+
+### ***Compute Gradient***
+```python
+def compute_gradient(x, y, w, b):
+    m = x.shape[0]
+    return np.sum((w * x + b - y) * x) / m, np.sum(w * x + b - y) / m
+```
+
+### ***Gradient Descent***
+```python
+def gradient_descent(x, y, w, b, alpha, num_iters, cost_function, gradient_function):
+    for _ in range(num_iters):
+        dj_dw, dj_db = gradient_function(x, y, w, b)
+        w -= alpha * dj_dw
+        b -= alpha * dj_db
+    return w, b
+```
+
+## 2. <u>***Scikit-Learn Implementation***</u>
+
+### **Import**
+```python
+from sklearn.linear_model import LinearRegression
+```
+
+### **Create and train model**
+```python
+model = LinearRegression()
+model.fit(x, y)
+```
+
+### **Predictions**
+```python
+y_pred = model.predict(x)
+```
+
+### **Parameters**
+```python
+w = model.ceof_[0]
+b = model.intercept_
+```
 ---
 
 # **Multiple Linear Regression**
