@@ -27,7 +27,9 @@ def compute_cost(x, y, w, b):
 ### ***Compute Gradient***
 - **$\frac{\partial J(w, b)}{\partial w} = \frac{1}{m} \sum_{i=1}^{m} \big( w x^{(i)} + b - y^{(i)} \big) x^{(i)}$**
 </br>
+
 - **$\frac{\partial J(w, b)}{\partial b} = \frac{1}{m} \sum_{i=1}^{m} \big( w x^{(i)} + b - y^{(i)} \big)$**
+
 ```python
 def compute_gradient(x, y, w, b):
     m = x.shape[0]
@@ -37,7 +39,9 @@ def compute_gradient(x, y, w, b):
 ### ***Gradient Descent***
 - **$w_j := w_j - \alpha \frac{\partial J(w, b)}{\partial w_j}$**
 </br>
+
 - **$b := b - \alpha \frac{\partial J(w, b)}{\partial b}$**
+
 ```python
 def gradient_descent(x, y, w, b, alpha, num_iters, cost_function, gradient_function):
     for _ in range(num_iters):
@@ -103,7 +107,9 @@ def compute_cost(X, y, w, b):
 ### ***Compute gradient***
 - **$ \frac{\partial J(w, b)}{\partial w_j} = \frac{1}{m} \sum_{i=1}^{m} \big( (\mathbf{w}^T \mathbf{x}^{(i)} + b) - y^{(i)} \big) x_j^{(i)} $**
 </br>
+
 - **$ \frac{\partial J(w, b)}{\partial b} = \frac{1}{m} \sum_{i=1}^{m} \big( (\mathbf{w}^T \mathbf{x}^{(i)} + b) - y^{(i)} \big) $**
+
 ```python
 def compute_gradient(X, y, w, b):
     m = X.shape[0]  # number of examples
@@ -120,6 +126,7 @@ def compute_gradient(X, y, w, b):
 ### ***Gradient Descent***
 - **$w_j := w_j - \alpha \frac{\partial J(w, b)}{\partial w_j}$**
 </br>
+
 - **$b := b - \alpha \frac{\partial J(w, b)}{\partial b}$**
 
 ```python
@@ -138,6 +145,7 @@ def gradient_descent(X, y, w_in, b_in, cost_function, gradient_function, alpha, 
 ```
 ### ***Feature Scaling: Mean Normalization***
 - **$X = \frac{X - \mu}{X_{\text{max}} - X_{\text{min}}}$**
+
 ```python
 def mean_normalize_features(X):
     mu = np.mean(X, axis = 0)
@@ -147,6 +155,7 @@ def mean_normalize_features(X):
 ``` 
 ### ***Feature Scaling: Z-Score Normalization***
 - **$X= \frac{X - \mu}{\sigma}$**
+
 ```python
 def zscore_normalize_features(X):
     mu     = np.mean(X, axis=0)
