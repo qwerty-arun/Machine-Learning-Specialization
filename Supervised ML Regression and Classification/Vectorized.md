@@ -278,7 +278,7 @@ plt.show()
 
 
 ### ***Cost Function***
-- **$ J(\mathbf{w},b) = \frac{1}{m} \sum_{i=0}^{m-1} \left[ L(f_{\mathbf{w},b}(\mathbf{x}^{(i)}), y^{(i)}) \right]$**
+- **$J(\mathbf{w},b) = \frac{1}{m} \sum_{i=0}^{m-1} \left[ L(f_{\mathbf{w},b}(\mathbf{x}^{(i)}), y^{(i)}) \right]$**
 
 >**Definition Note:** 
 **Loss** is a measure of the difference of a single example to its target value while the  
@@ -360,11 +360,11 @@ def gradient_descent(X, y, w_in, b_in, alpha, num_iters):
 ```
 ### ***Gradient with Regularization***
 
-**$$\begin{align*}
+$\begin{align*}
 \frac{\partial J(\mathbf{w},b)}{\partial w_j}  &= \frac{1}{m} \sum\limits_{i = 0}^{m-1} (f_{\mathbf{w},b}(\mathbf{x}^{(i)}) - y^{(i)})x_{j}^{(i)}  +  \frac{\lambda}{m} w_j 
 \\
 \frac{\partial J(\mathbf{w},b)}{\partial b}  &= \frac{1}{m} \sum\limits_{i = 0}^{m-1} (f_{\mathbf{w},b}(\mathbf{x}^{(i)}) - y^{(i)}) 
-\end{align*}$$**
+\end{align*}$
 
 ```python
 def compute_gradient_logistic_reg(X, y, w, b, lambda_):
