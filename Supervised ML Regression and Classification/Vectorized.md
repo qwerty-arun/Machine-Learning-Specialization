@@ -24,6 +24,25 @@ def compute_cost(x, y, w, b):
     return np.sum((w * x + b - y) ** 2) / (2 * x.shape[0])
 ```
 
+### ***Regularized Cost Function***
+- **$J(\mathbf{w},b) = \frac{1}{2m} \sum\limits_{i = 0}^{m-1} (f_{\mathbf{w},b}(\mathbf{x}^{(i)}) - y^{(i)})^2  + \frac{\lambda}{2m}  \sum_{j=0}^{n-1} w_j^2$**
+
+```python
+import numpy as np
+
+def compute_cost_linear_reg(X, y, w, b, lambda_=1):
+    m = X.shape[0]
+    # Predictions for all examples (vectorized)
+    f_wb = np.dot(X, w) + b           # shape: (m,)
+    # Mean Squared Error cost
+    cost = (1 / (2 * m)) * np.sum((f_wb - y) ** 2)
+    # Regularization cost (excluding bias term)
+    reg_cost = (lambda_ / (2 * m)) * np.sum(w ** 2)
+    # Total cost
+    total_cost = cost + reg_cost
+    return total_cost
+```
+
 ### ***Compute Gradient***
 - **$\frac{\partial J(w, b)}{\partial w} = \frac{1}{m} \sum_{i=1}^{m} \big( w x^{(i)} + b - y^{(i)} \big) x^{(i)}$**
 </br>
@@ -34,6 +53,26 @@ def compute_cost(x, y, w, b):
 def compute_gradient(x, y, w, b):
     m = x.shape[0]
     return np.sum((w * x + b - y) * x) / m, np.sum(w * x + b - y) / m
+```
+
+### ***Gradient with Regularization***
+
+**$$\begin{align*}
+\frac{\partial J(\mathbf{w},b)}{\partial w_j}  &= \frac{1}{m} \sum\limits_{i = 0}^{m-1} (f_{\mathbf{w},b}(\mathbf{x}^{(i)}) - y^{(i)})x_{j}^{(i)}  +  \frac{\lambda}{m} w_j 
+\\
+\frac{\partial J(\mathbf{w},b)}{\partial b}  &= \frac{1}{m} \sum\limits_{i = 0}^{m-1} (f_{\mathbf{w},b}(\mathbf{x}^{(i)}) - y^{(i)}) 
+\end{align*}$$**
+
+```python
+def compute_gradient_linear_reg(X, y, w, b, lambda_):
+    m = X.shape[0]  # number of training examples
+    # Predictions and errors
+    f_wb = np.dot(X, w) + b              # shape: (m,)
+    err = f_wb - y                       # shape: (m,)
+    # Gradients (vectorized)
+    dj_dw = (1 / m) * np.dot(X.T, err) + (lambda_ / m) * w   # shape: (n,)
+    dj_db = (1 / m) * np.sum(err)                            # scalar
+    return dj_db, dj_dw
 ```
 
 ### ***Gradient Descent***
@@ -234,7 +273,16 @@ ax.set_xlabel(r'$x_0$')
 plt.show()
 ```
 
+### ***Logistic Loss***
+**$L(f_{\mathbf{w},b}(\mathbf{x}^{(i)}), y^{(i)}) = (-y^{(i)} \log\left(f_{\mathbf{w},b}\left( \mathbf{x}^{(i)} \right) \right) - \left( 1 - y^{(i)}\right) \log \left( 1 - f_{\mathbf{w},b}\left( \mathbf{x}^{(i)} \right) \right)$**
 
+
+### ***Cost Function***
+- **$ J(\mathbf{w},b) = \frac{1}{m} \sum_{i=0}^{m-1} \left[ L(f_{\mathbf{w},b}(\mathbf{x}^{(i)}), y^{(i)}) \right]$**
+
+>**Definition Note:** 
+**Loss** is a measure of the difference of a single example to its target value while the  
+**Cost** is a measure of the losses over the training set
 
 ### ***Compute Cost***
 - **$J(w, b) = -\frac{1}{m} \sum_{i=1}^{m} \Big[ y^{(i)} \log(f_{w,b}^{(i)}) + (1 - y^{(i)}) \log(1 - f_{w,b}^{(i)}) \Big]$**
@@ -249,6 +297,23 @@ def compute_cost_logistic(X, y, w, b):
     # Compute cost using vectorized operations
     cost = (-1 / m) * np.sum(y * np.log(f_wb) + (1 - y) * np.log(1 - f_wb))
     return cost
+```
+
+### ***Regularized Cost Function***
+- **$J(\mathbf{w},b) = \frac{1}{m}  \sum_{i=0}^{m-1} \left[ -y^{(i)} \log\left(f_{\mathbf{w},b}\left( \mathbf{x}^{(i)} \right) \right) - \left( 1 - y^{(i)}\right) \log \left( 1 - f_{\mathbf{w},b}\left( \mathbf{x}^{(i)} \right) \right) \right] + \frac{\lambda}{2m}  \sum_{j=0}^{n-1} w_j^2 $**
+```python
+def compute_cost_logistic_reg(X, y, w, b, lambda_=1):
+    m = X.shape[0]
+    # Compute model predictions
+    z = np.dot(X, w) + b          # shape: (m,)
+    f_wb = sigmoid(z)             # shape: (m,)
+    # Compute unregularized logistic cost
+    cost = -(1 / m) * np.sum(y * np.log(f_wb) + (1 - y) * np.log(1 - f_wb))
+    # Regularization term (do NOT include bias b)
+    reg_cost = (lambda_ / (2 * m)) * np.sum(w ** 2)
+    # Total cost
+    total_cost = cost + reg_cost
+    return total_cost
 ```
 
 ### ***Compute Gradient***
@@ -293,6 +358,26 @@ def gradient_descent(X, y, w_in, b_in, alpha, num_iters):
         b = b - alpha * dj_db               
     return w, b
 ```
+### ***Gradient with Regularization***
+
+**$$\begin{align*}
+\frac{\partial J(\mathbf{w},b)}{\partial w_j}  &= \frac{1}{m} \sum\limits_{i = 0}^{m-1} (f_{\mathbf{w},b}(\mathbf{x}^{(i)}) - y^{(i)})x_{j}^{(i)}  +  \frac{\lambda}{m} w_j 
+\\
+\frac{\partial J(\mathbf{w},b)}{\partial b}  &= \frac{1}{m} \sum\limits_{i = 0}^{m-1} (f_{\mathbf{w},b}(\mathbf{x}^{(i)}) - y^{(i)}) 
+\end{align*}$$**
+
+```python
+def compute_gradient_logistic_reg(X, y, w, b, lambda_):
+    m = X.shape[0]
+    # Predictions and error vector
+    f_wb = sigmoid(np.dot(X, w) + b)   # shape: (m,)
+    err = f_wb - y                     # shape: (m,)
+    # Gradients (vectorized)
+    dj_dw = (1 / m) * np.dot(X.T, err) + (lambda_ / m) * w  # shape: (n,)
+    dj_db = (1 / m) * np.sum(err)                           # scalar
+    return dj_db, dj_dw
+```
+
 
 ## 2. <u>***Scikit-Learn Implementation***</u>
 ### ***Dataset***
