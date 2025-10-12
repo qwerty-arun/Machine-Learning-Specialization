@@ -105,10 +105,10 @@ def compute_cost(X, y, w, b):
 ```
 
 ### ***Compute gradient***
-- **$ \frac{\partial J(w, b)}{\partial w_j} = \frac{1}{m} \sum_{i=1}^{m} \big( (\mathbf{w}^T \mathbf{x}^{(i)} + b) - y^{(i)} \big) x_j^{(i)} $**
+- **$\frac{\partial J(w, b)}{\partial w_j} = \frac{1}{m} \sum_{i=1}^{m} \big( (\mathbf{w}^T \mathbf{x}^{(i)} + b) - y^{(i)} \big) x_j^{(i)}$**
 </br>
 
-- **$ \frac{\partial J(w, b)}{\partial b} = \frac{1}{m} \sum_{i=1}^{m} \big( (\mathbf{w}^T \mathbf{x}^{(i)} + b) - y^{(i)} \big) $**
+- **$\frac{\partial J(w, b)}{\partial b} = \frac{1}{m} \sum_{i=1}^{m} \big( (\mathbf{w}^T \mathbf{x}^{(i)} + b) - y^{(i)} \big)$**
 
 ```python
 def compute_gradient(X, y, w, b):
